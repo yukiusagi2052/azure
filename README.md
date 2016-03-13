@@ -1,0 +1,2 @@
+# azure
+developping arm template
