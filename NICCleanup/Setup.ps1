@@ -37,7 +37,7 @@ Configuration DscUnzip
 DscUnzip -OutputPath .
 Start-DscConfiguration .\DscUnzip -Wait -Verbose
 Remove-Item -Recurse -Path .\DscUnzip
-Remove-Item -Path .\DeviceManagement.zip
+#Remove-Item -Path .\DeviceManagement.zip
 Rename-Item .\Release DeviceManagement
 
 ## Step3 HiddenNICRemove.ps1
@@ -47,17 +47,8 @@ $file = Split-Path $uri.AbsolutePath -Leaf
 $cli = New-Object System.Net.WebClient
 $cli.DownloadFile($uri, (Join-Path $TargetDir $file))
 
-## Step4 NICCleanup.bat
-$url = 'https://raw.githubusercontent.com/yukiusagi2052/azure/master/NICCleanup/NICCleanup.bat'
-$uri = New-Object System.Uri($url)
-$file = Split-Path $uri.AbsolutePath -Leaf
-$cli = New-Object System.Net.WebClient
-$cli.DownloadFile($uri, (Join-Path $TargetDir $file))
-
-## Step5 register task
+## Step4 register task
 $action = New-ScheduledTaskAction -Execute 'Powershell.exe' `
   -Argument '-NoProfile -WindowStyle Hidden -ExecutionPolicy Unrestricted -command "C:\Packages\NICCleanup\HiddenNICRemove.ps1"'
-
 $trigger = New-ScheduledTaskTrigger -AtStartup
-
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "NICCleanup" -Description "Hidden NIC Remove at Startup"
