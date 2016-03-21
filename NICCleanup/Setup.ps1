@@ -54,3 +54,10 @@ $file = Split-Path $uri.AbsolutePath -Leaf
 $cli = New-Object System.Net.WebClient
 $cli.DownloadFile($uri, (Join-Path $TargetDir $file))
 
+## Step5 register task
+$action = New-ScheduledTaskAction -Execute 'Powershell.exe' `
+  -Argument '-NoProfile -WindowStyle Hidden -ExecutionPolicy Unrestricted -command "C:\Packages\NICCleanup\HiddenNICRemove.ps1"'
+
+$trigger = New-ScheduledTaskTrigger -AtStartup
+
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "NICCleanup" -Description "Hidden NIC Remove at Startup"
