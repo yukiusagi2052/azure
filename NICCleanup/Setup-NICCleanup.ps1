@@ -34,15 +34,15 @@ DscUnzip -OutputPath .
 Start-DscConfiguration .\DscUnzip -Wait -Verbose
 
 
-$url = 'https://raw.githubusercontent.com/sinofseven/MinecraftMall/master/101-dynmap/builder.zip'
+$url = 'https://raw.githubusercontent.com/yukiusagi2052/azure/master/NICCleanup/Setup-NICCleanup.ps1'
 $uri = New-Object System.Uri($url)
 $file = Split-Path $uri.AbsolutePath -Leaf
 $cli = New-Object System.Net.WebClient
-$cli.DownloadFile($uri, (Join-Path $m_home $file))
+$cli.DownloadFile($uri, (Join-Path $TargetDir $file))
 
 
-$url = 'https://raw.githubusercontent.com/sinofseven/MinecraftMall/master/101-dynmap/builder.zip'
+$url = 'https://raw.githubusercontent.com/yukiusagi2052/azure/master/NICCleanup/HiddenNICRemove.ps1'
 $uri = New-Object System.Uri($url)
 $file = Split-Path $uri.AbsolutePath -Leaf
 $cli = New-Object System.Net.WebClient
-$cli.DownloadFile($uri, (Join-Path $m_home $file))
+$cli.DownloadFile($uri, (Join-Path $TargetDir $file))
